@@ -68,6 +68,13 @@ sensor:
       - multiply: 0.01
     value_type: U_WORD
     icon: "mdi:engine"
+    filters:
+      - multiply: 0.01
+      - lambda: |-
+          if (isnan(id(generator_l1_voltage).state) || id(generator_l1_voltage).state < 210.0) {
+            return 0.0;
+          }
+          return x;
 
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
@@ -89,12 +96,21 @@ sensor:
 binary_sensor:
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "Generator Connected Status"
-    id: generator_connected_status
+    name: "Generator Request Relay"
+    id: generator_request_relay
     register_type: holding
     address: 195
+    bitmask: 1
+    device_class: power
+    icon: "mdi:electric-switch"
+
+  - platform: template
+    name: "Generator Running"
+    id: generator_running
     device_class: running
-    icon: "mdi:power"
+    icon: "mdi:engine"
+    lambda: |-
+      return (!isnan(id(generator_l1_voltage).state) && id(generator_l1_voltage).state > 210.0);
 
 select:
   - platform: modbus_controller
