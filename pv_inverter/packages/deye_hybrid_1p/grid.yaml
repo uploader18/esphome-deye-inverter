@@ -145,6 +145,19 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
+    name: "Grid Current"
+    register_type: holding
+    address: 160
+    unit_of_measurement: "A"
+    device_class: current
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+    value_type: S_WORD
+    icon: "mdi:current-ac"
+
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
     name: "Daily Energy Bought"
     id: daily_energy_bought
     register_type: holding
