@@ -81,6 +81,10 @@ sensor:
     accuracy_decimals: 0
     value_type: S_WORD
     icon: "mdi:engine"
+    filters:
+      - lambda: |-
+          if (x < 200.0) return 0.0;
+          return x;
 
 binary_sensor:
   - platform: modbus_controller
