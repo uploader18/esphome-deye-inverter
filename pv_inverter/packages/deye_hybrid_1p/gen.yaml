@@ -64,8 +64,6 @@ sensor:
     unit_of_measurement: "Hz"
     device_class: frequency
     accuracy_decimals: 2
-    filters:
-      - multiply: 0.01
     value_type: U_WORD
     icon: "mdi:engine"
     filters:
